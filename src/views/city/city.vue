@@ -14,16 +14,20 @@
 
     <!-- 2. tab 的切换 -->
     <van-tabs v-model:active="tabActive" color="var(--primary-color)">
-      <van-tab title="国内·港澳台"></van-tab>
-      <van-tab title="海外"></van-tab>
+      <!-- <van-tab :title="allCity?.cityGroup?.title"></van-tab> -->
+      <template v-for="(value, key, index) in allCities" :key="key">
+        <van-tab :title="value.title"></van-tab>
+      </template>
     </van-tabs>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
-import { getCityAll } from '@/services'
+// import { getCityAll } from '@/services'
+import useCityStore from '@/stores/moudles/city'
 
 const router = useRouter()
 
@@ -42,10 +46,15 @@ const tabActive = ref()
 // }).then(res => {
 //   console.log(res)
 // })
-getCityAll().then(res => {
-  console.log(res)
-})
 
+// const allCity = ref()
+// getCityAll().then(res => {
+//   allCity.value = res.data
+// })
+
+const cityStore = useCityStore()
+cityStore.fetchAllCitiesData()
+const { allCities } = storeToRefs(cityStore)
 
 </script>
 
