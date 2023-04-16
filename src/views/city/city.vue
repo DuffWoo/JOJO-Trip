@@ -16,23 +16,23 @@
       </van-tabs>
     </div>
 
+    <!-- 城市展示列表 -->
     <div class="content">
-      <!-- 表达式（过长） -->
-      <!-- <template v-for="item in allCities[tabActive]?.cities"> -->
-      <template v-for="item in currentGroup?.cities">
-        <div>{{ item }}</div>
+      <template v-for="(value, key, index) in allCities">
+        <cityGroup v-show="tabActive === key" :groupData="value"/>
       </template>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 // import { getCityAll } from '@/services'
 import useCityStore from '@/stores/moudles/city'
-import { computed } from '@vue/reactivity';
+
+import cityGroup from './components/city-group.vue'
 
 const router = useRouter()
 
@@ -71,6 +71,10 @@ const currentGroup = computed(() => allCities.value[tabActive.value])
 
 <style lang="less" scoped>
   .city {
+    .top {
+      position: relative;
+      z-index: 9;
+    }
     .content {
       height: calc(100vh - 98px);
       overflow-y: auto;
