@@ -4,35 +4,25 @@
     <van-index-anchor index="Hot" />
     <div class="hotList">
       <template v-for="(city, index) in groupData.hotCities">
-        <div class="city">{{ city.cityName }}</div>
+        <div class="city" @click="cityClick(city)">{{ city.cityName }}</div>
       </template>
     </div>
 
     <template v-for="(group, index) in groupData?.cities" :key="index">
       <van-index-anchor :index="group.group" />
       <template v-for="(city, index) in group.cities" :key="index">
-        <van-cell :title="city.cityName" />
+        <van-cell :title="city.cityName" @click="cityClick(city)"/>
       </template>
     </template>
   </van-index-bar>
-
-  <!-- <div class="city-group">
-    <template v-for="(group, index) in groupData?.cities" :key="index">
-      <div class="group-item">
-        <h3 class="title">Title:{{ group.group }}</h3>
-        <div class="list">
-          <template v-for="(city, index) in group.cities" :key="index">
-            <div class="city">{{ city.cityName }}</div>
-          </template>
-        </div>
-      </div>
-    </template>
-  </div> -->
 </template>
 
 <script setup>
 import { computed } from 'vue';
+import { useRouter } from 'vue-router';
+import useCityStore from '@/stores/moudles/city';
 
+// 定义 props
 const props = defineProps({
   groupData: {
     type: Object,
@@ -40,9 +30,24 @@ const props = defineProps({
   }
 })
 
+// 动态索引
 const indexList = computed(() => {
-  return props.groupData.cities.map(item => item.group)
+  const list = props.groupData.cities.map(item => item.group)
+  list.unshift('🔥')
+  return list
 })
+
+// 监听城市点击
+const router = useRouter()
+const cityStore = useCityStore()
+const cityClick = (city) => {
+  // 选中当前城市
+  cityStore.currentCity = city
+
+  // 回退上一级
+  router.back()
+}
+
 </script>
 
 <style lang="less" scoped>
