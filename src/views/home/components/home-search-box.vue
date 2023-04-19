@@ -63,16 +63,17 @@
   import { useRouter } from 'vue-router';
   import useCityStore from '@/stores/moudles/city';
   import { formatMonthDay, getDiffDays } from '@/utils/format-date';
+  import useHomeStore from '@/stores/moudles/home';
 
   const router = useRouter()
 
   // 定义 props
-  defineProps ({
-    hotSuggests: {
-      type: Array,
-      default: () => []
-    }
-  })
+  // defineProps ({
+  //   hotSuggests: {
+  //     type: Array,
+  //     default: () => []
+  //   }
+  // })
 
   // Error
   const positionClick = () => {
@@ -131,6 +132,10 @@
     // 隐藏日历
     showCalendar.value = false
   }
+
+  // 热门建议
+  const homeStore = useHomeStore()
+  const { hotSuggests } = storeToRefs(homeStore)
 
 </script>
 
