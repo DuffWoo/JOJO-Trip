@@ -4,8 +4,8 @@
     <div class="location">
       <div class="city" @click="cityClick">{{ currentCity.cityName }}</div>
       <div class="position" @click="positionClick">
-        <span class="text">我的位置</span>
         <img src="@/assets/img/home/icon_location.png" alt="">
+        <span class="text">我的位置</span>
       </div>
     </div>
     <!-- 日期范围 -->
@@ -35,6 +35,25 @@
         @confirm="onConfirm" 
       />
     </div>
+    <!-- 价格/人数选择 -->
+    <div class="price-counter">
+      <div class="start">价格不限</div>
+      <div class="end">人数不限</div>
+    </div>
+    <!-- 关键字 -->
+    <div class="keyword">关键字/位置/民宿名</div>
+
+    <!-- 热门建议 -->
+    <div class="hot-suggests">
+      <template v-for="(item, index) in hotSuggests">
+        <div class="item"
+          :style="{color: item.tagText.color, background: item.tagText.background.color}"
+        >
+          {{ item.tagText.text }}
+        </div>
+      </template>
+    </div>
+
   </div>
 </template>
 
@@ -46,6 +65,14 @@
   import { formatMonthDay, getDiffDays } from '@/utils/format-date';
 
   const router = useRouter()
+
+  // 定义 props
+  defineProps ({
+    hotSuggests: {
+      type: Array,
+      default: () => []
+    }
+  })
 
   // Error
   const positionClick = () => {
@@ -133,7 +160,7 @@
       }
 
       img {
-        margin-left: 5px;
+        margin-right: 5px;
         width: 18px;
         height: 18px;
       }
@@ -143,21 +170,24 @@
   .section {
     display: flex;
     align-items: center;
-    padding: 3px 23px;
+    padding: 3px 20px;
     color: #999;
     height: 44px;
     background-color: #fff8f4;
     border-radius: 20px;
-    margin: 0 20px;
+    margin: 0 10px;
     .start {
       display: flex;
       height: 44px;
       align-items: center;
+        .date {
+          align-items: start;
+        }
     }
     .date {
       display: flex;
       flex-direction: column;
-      align-items: center;
+      align-items: end;
       .tip {
         font-size: 12px;
         color: #999;
@@ -182,6 +212,38 @@
   // 日历
   .calendar {
     --van-calendar-popup-height: 90%;
+  }
+  // 价格/人数选择
+  .price-counter {
+    display: flex;
+    justify-content: space-between;
+    height: 44px;
+    line-height: 44px;
+    padding: 0 30px;
+    margin-top: 5px;
+    background-color: none;
+    color: #999;
+  }
+  // 关键字
+  .keyword {
+    height: 44px;
+    line-height: 44px;
+    padding: 0 30px;
+    background-color: none;
+    color: #999;
+  }
+  // 热门建议
+  .hot-suggests {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 22px;
+    font-size: 12px;
+      .item {
+        margin: 4px;
+        padding: 4px 8px;
+        border-radius: 14px;
+        line-height: 1;
+      }
   }
 }
 
