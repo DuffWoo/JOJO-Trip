@@ -54,6 +54,10 @@
       </template>
     </div>
 
+    <!-- 搜索按钮 -->
+    <div class="search-btn" @click="searchBtnClick">
+      <button class="btn">Search</button>
+    </div>
   </div>
 </template>
 
@@ -136,6 +140,18 @@
   // 热门建议
   const homeStore = useHomeStore()
   const { hotSuggests } = storeToRefs(homeStore)
+
+  // 搜索按钮
+  const searchBtnClick = () => {
+    router.push({
+      path: '/search',
+      query: {
+        startDate: startDate.value,
+        endDate: endDate.value,
+        currentCity: currentCity.value.cityName
+      }
+    })
+  }
 
 </script>
 
@@ -247,8 +263,27 @@
         margin: 4px;
         padding: 4px 8px;
         border-radius: 14px;
-        line-height: 1;
+        // line-height: 1;
       }
+  }
+  // 搜索按钮
+  .search-btn {
+    display: flex;
+    justify-content: center;
+    .btn {
+      flex: 1;
+      margin: 10px 30px;
+      height: 38px;
+      max-height: 50px;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 38px;
+      text-align: center;
+      color: #fff;
+      border-radius: 20px;
+      border: none;
+      background-image: var(--theme-linear-gradient);
+    }
   }
 }
 

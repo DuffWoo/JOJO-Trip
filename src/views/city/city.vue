@@ -1,5 +1,6 @@
 <template>
-  <div class="city top-page">
+  <!-- <div class="city top-page"> -->
+  <div class="city">
     <div class="top">
       <!-- 1. 搜索框 -->
       <form action="/">
