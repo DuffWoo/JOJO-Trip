@@ -18,9 +18,8 @@
 
     .title {
       font-size: 20px;
-      font-weight: 600;
-      font-style: italic;
-      color: var(--primary-color);
+      font-weight: 700;
+      color: #8b2ecd;
     }
   }
 </style>

@@ -48,6 +48,7 @@
       <template v-for="(item, index) in hotSuggests">
         <div class="item"
           :style="{color: item.tagText.color, background: item.tagText.background.color}"
+          @click="hotSuggestsClick"
         >
           {{ item.tagText.text }}
         </div>
@@ -140,6 +141,15 @@
   // 热门建议
   const homeStore = useHomeStore()
   const { hotSuggests } = storeToRefs(homeStore)
+  const hotSuggestsClick = (item) => {
+    // console.log(item.target.innerText)
+    router.push({
+      path: '/search',
+      query: {
+        hotSuggests: item.target.innerText
+      }
+    })
+  }
 
   // 搜索按钮
   const searchBtnClick = () => {
@@ -272,7 +282,7 @@
     justify-content: center;
     .btn {
       flex: 1;
-      margin: 10px 30px;
+      margin: 10px 30px 0 30px;
       height: 38px;
       max-height: 50px;
       font-weight: 500;

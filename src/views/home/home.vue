@@ -7,6 +7,8 @@
     </div>
 
     <HomeSearchBox />
+
+    <HomeCategories/>
   </div>
 </template>
 
@@ -14,6 +16,7 @@
   // import { ref } from 'vue'
   import HomeNavBar from './components/home-nav-bar.vue';
   import HomeSearchBox from './components/home-search-box.vue';
+  import HomeCategories from './components/home-categories.vue'
   import useHomeStore from '@/stores/moudles/home';
 
   // import jojoRequest from '@/services/request/index'
@@ -21,14 +24,7 @@
   // 发送网络请求
   const homeStore = useHomeStore()
   homeStore.fetchHotSuggestData()
-  
-  // 热门建议
-  // const hotSuggests = ref([])
-  // jojoRequest.get({
-  //   url: '/home/hotSuggests'
-  // }) .then(res => {
-  //   hotSuggests.value = res.data
-  // })
+  homeStore.fetchCategoriesData()
   
 </script>
 
