@@ -5,9 +5,8 @@ const useHomeStore = defineStore("home", {
   state: () => ({
     hotSuggests: [],
     categories: [],
-
+    currentPage: 1,
     houseList: [],
-    currentPage: 1
   }),
   actions: {
     async fetchHotSuggestData() {

@@ -19,7 +19,8 @@
     .title {
       font-size: 20px;
       font-weight: 700;
-      color: #8b2ecd;
+      color: var(--primary-color);
+      font-style: italic;
     }
   }
 </style>

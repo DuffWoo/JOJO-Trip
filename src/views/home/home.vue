@@ -10,14 +10,13 @@
 
     <HomeCategories/>
 
-    <HomeContent />
+    <HomeContent/>
 
-    <button @click="homelistBtn">click</button>
+    <button @click="homelistBtn">MORE</button>
   </div>
 </template>
 
 <script setup>
-  // import { ref } from 'vue'
   import useHomeStore from '@/stores/moudles/home';
   
   import HomeNavBar from './components/home-nav-bar.vue';
@@ -25,18 +24,14 @@
   import HomeCategories from './components/home-categories.vue'
   import HomeContent from './components/home-content.vue'
 
-  // import jojoRequest from '@/services/request/index'
-
   // 发送网络请求
   const homeStore = useHomeStore()
   homeStore.fetchHotSuggestData()
   homeStore.fetchCategoriesData()
-
-  // let currentPage = 1
   homeStore.fetchHouseListData()
 
   const homelistBtn = () => {
-    // currentPage++
+    console.log('MORE')
     homeStore.fetchHouseListData()
   }
 </script>
