@@ -1,5 +1,6 @@
 <template>
   <div class="content">
+    <h2 class="title">Hot Picks</h2>
     <div class="list">
       <template v-for="(item, index) in houseList" :key="item.data.houseId">
         <!-- <div>{{ item.data.houseName }}</div> -->
@@ -24,6 +25,11 @@
 <style lang="less" scoped>
   .content {
     padding: 10px 10px;
+    .title {
+      margin-bottom: 5px;
+      padding-left: 10px;
+      color: var(--primary-color);
+    }
     .list {
       display: flex;
       flex-wrap: wrap;

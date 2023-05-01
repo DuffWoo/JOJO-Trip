@@ -6,13 +6,13 @@ export function getHomeHotSuggests() {
   })
 }
 
-export function getCategories() {
+export function getHomeCategories() {
   return jojoRequest.get({
     url: '/home/categories'
   })
 }
 
-export function getHouseList(currentPage) {
+export function getHomeHouseList(currentPage) {
   return jojoRequest.get({
     url: '/home/houselist',
     params: {
