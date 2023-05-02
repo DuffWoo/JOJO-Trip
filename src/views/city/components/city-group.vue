@@ -20,7 +20,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useRouter } from 'vue-router';
-import useCityStore from '@/stores/moudles/city';
+import useCityStore from '@/stores/modules/city';
 
 // 定义 props
 const props = defineProps({

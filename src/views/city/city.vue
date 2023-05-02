@@ -31,7 +31,7 @@ import { ref, computed } from 'vue';
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 // import { getCityAll } from '@/services'
-import useCityStore from '@/stores/moudles/city'
+import useCityStore from '@/stores/modules/city'
 
 import cityGroup from './components/city-group.vue'
 

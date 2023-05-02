@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import useHomeStore from '@/stores/moudles/home';
+import useHomeStore from '@/stores/modules/home';
 import { storeToRefs } from 'pinia';
 
 const homeStore = useHomeStore()
