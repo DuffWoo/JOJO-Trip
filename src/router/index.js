@@ -28,7 +28,7 @@ const router = createRouter({
       path: '/city',
       component: () => import('@/views/city/city.vue'),
       meta: {
-        hideTabBar : true
+        hideTabBar: true
       }
     },
     {
@@ -37,8 +37,12 @@ const router = createRouter({
       meta: {
         hideTabBar: true
       }
+    },
+    {
+      path: '/detail/:id', 
+      component: () => import('@/views/detail/detail.vue'),
     }
-  ]
+  ],
 })
 
 export default router

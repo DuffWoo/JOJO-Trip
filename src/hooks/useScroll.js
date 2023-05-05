@@ -24,7 +24,7 @@ export default function useScroll() {
     clientHeight.value = document.documentElement.clientHeight
     scrollTop.value = document.documentElement.scrollTop
     scrollHeight.value = document.documentElement.scrollHeight
-    console.log('listener scroll')
+    // console.log('listener scroll')
     if (clientHeight.value + scrollTop.value >= scrollHeight.value) {
       console.log('scroll bottom')
       isReachBottom.value = true
@@ -32,11 +32,11 @@ export default function useScroll() {
   }, 100)
 
   onMounted(() => {
-    window.addEventListener("scroll", scrollListenerHandler)
+    window.addEventListener("scroll", scrollListenerHandler, true)
   })
 
   onUnmounted(() => {
-    window.removeEventListener("scroll", scrollListenerHandler)
+    window.removeEventListener("scroll", scrollListenerHandler, true)
   })
 
   return { isReachBottom, clientHeight, scrollTop, scrollHeight }
