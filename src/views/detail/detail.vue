@@ -8,7 +8,12 @@
     />
 
     <div class="mian" v-if="mainPart">
-      <detailSwipe :swipeData="mainPart.topModule.housePicture.housePics"/>
+      <DetailSwipe :swipeData="mainPart.topModule.housePicture.housePics"/>
+      <DetailInfos :topInfos="mainPart.topModule"/>
+      <DetailFacility :houseFacility="mainPart.dynamicModule.facilityModule.houseFacility"/>
+      <DetailLandlord :landlord="mainPart.dynamicModule.landlordModule"/>
+      <DetailComment :comment="mainPart.dynamicModule.commentModule"/>
+      <DetailNotice :order-rules="mainPart.dynamicModule.rulesModule.orderRules"/>
     </div>
   </div>
 </template>
@@ -18,7 +23,12 @@
   import { useRouter, useRoute } from 'vue-router'
 
   import { getDetailInfos } from '@/services'
-  import detailSwipe from './components/detail-swipe.vue'
+  import DetailSwipe from './components/detail_01-swipe.vue'
+  import DetailInfos from './components/detail_02-infos.vue'
+  import DetailFacility from './components/detail_03-facility.vue'
+  import DetailLandlord from './components/detail_04-landlord.vue'
+  import DetailComment from './components/detail_05-comment.vue'
+  import DetailNotice from './components/detail_06-notice.vue'
 
   const router = useRouter()
   const route = useRoute()

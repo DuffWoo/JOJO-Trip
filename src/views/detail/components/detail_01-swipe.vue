@@ -45,7 +45,8 @@
     }
     valueArray.push(item)
   }
-  console.log(swipeGroup)
+  // console.log(swipeGroup)
+
   // 思路一：两次循环
   // for (let item of props.swipeData) {
   //   swipeGroup[item.enumPictureCategory] = []
@@ -64,6 +65,7 @@
     return results[1]
   }
 
+  // 选中数字索引
   const getCategoryIndex = (item) => {
     const valueArray = swipeGroup[item.enumPictureCategory]
     return valueArray.findIndex(data => data == item) + 1
