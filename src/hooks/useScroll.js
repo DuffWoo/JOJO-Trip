@@ -1,18 +1,9 @@
 import { onMounted, onUnmounted, ref } from "vue"
 import { throttle } from 'underscore'
 
-// export default function useScroll(reachBottomCB) {
-//   const scrollListenerHandler = () => {
-//       const clientHeight = document.documentElement.clientHeight
-//       const scrollTop = document.documentElement.scrollTop
-//       const scrollHeight = document.documentElement.scrollHeight
-//       console.log('------------')
-//       if (clientHeight + scrollTop >= scrollHeight) {
-//         console.log('MORE')
-//         if (reachBottomCB) reachBottomCB() 
-//       }
-//   }
-export default function useScroll() {
+export default function useScroll(elRef) {
+  let el = window
+
   const isReachBottom = ref(false)
 
   let clientHeight = ref(0)
@@ -21,9 +12,15 @@ export default function useScroll() {
 
   // 防抖 / 节流
   const scrollListenerHandler = throttle(() => {
-    clientHeight.value = document.documentElement.clientHeight
-    scrollTop.value = document.documentElement.scrollTop
-    scrollHeight.value = document.documentElement.scrollHeight
+    if(el === window) {
+      clientHeight.value = document.documentElement.clientHeight
+      scrollTop.value = document.documentElement.scrollTop
+      scrollHeight.value = document.documentElement.scrollHeight
+    } else {
+      clientHeight.value = el.clientHeight
+      scrollTop.value = el.scrollTop
+      scrollHeight.value = el.scrollHeight
+    }
     // console.log('listener scroll')
     if (clientHeight.value + scrollTop.value >= scrollHeight.value) {
       console.log('scroll bottom')
@@ -32,11 +29,12 @@ export default function useScroll() {
   }, 100)
 
   onMounted(() => {
-    window.addEventListener("scroll", scrollListenerHandler, true)
+    if (elRef) el = elRef.value
+    el.addEventListener("scroll", scrollListenerHandler)
   })
 
   onUnmounted(() => {
-    window.removeEventListener("scroll", scrollListenerHandler, true)
+    el.removeEventListener("scroll", scrollListenerHandler)
   })
 
   return { isReachBottom, clientHeight, scrollTop, scrollHeight }
