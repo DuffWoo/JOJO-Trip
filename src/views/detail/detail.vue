@@ -5,14 +5,15 @@
       class="tab"
       :titles="names"
       @tabItemClick="tabClick"
+      ref="tabControlRef"
     />
     <van-nav-bar 
-      title="房屋详情" 
+      title="房屋详情"
       left-text="返回" 
       left-arrow @click-left="onClickLeft" 
     />
 
-    <div class="mian" v-if="mainPart" v-memo="[mianPart]">
+    <div class="mian" v-if="mainPart" v-memo="[mainPart]">
       <DetailSwipe :swipeData="mainPart.topModule.housePicture.housePics" />
       <DetailInfos name="描述" :ref="getSectionRef" :topInfos="mainPart.topModule" />
       <DetailFacility name="设施" :ref="getSectionRef" :houseFacility="mainPart.dynamicModule.facilityModule.houseFacility" />
@@ -31,7 +32,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
 import { getDetailInfos } from '@/services'
@@ -83,25 +84,68 @@ const names = computed(() => {
   return Object.keys(sectionEls.value)
 })
 const getSectionRef = (value) => {
+  // 卸载挂载 value 返回 null，没有 $el
+  if (!value) return
+  // 拿到组件的 name 属性的值
   const name = value.$el.getAttribute("name")
   // console.log(name)
+  // name 作为 key， 整个组件根元素作为 value
   sectionEls.value[name] = value.$el
 }
 
+// 解决点击混乱 bug
+let isClick = false
+let currentDistance = -1
+
 const tabClick = (index) => {
+  // 通过索引拿到 key
   const key = Object.keys(sectionEls.value)[index]
+  // 通过索引拿到点击的组件
   const el = sectionEls.value[key]
   // let instance = sectionEls[index].offsetTop
-  let instance = el.offsetTop
+
+  // 点击组件的 offsetTop，距离顶部的高度
+  let distance = el.offsetTop
   // if (index !== 0) {
-  //   instance = instance - 44
+  //   distance = distance - 44
   // }
-  instance = instance - 44
+  distance = distance - 44
+  
+  // 点击 bug
+  isClick = true
+  currentDistance = distance
+
+  // 滚动位置及动画
   detailRef.value.scrollTo({
-    top: instance,
+    top: distance,
     behavior: 'smooth'
   })
 }
+
+// 页面滚动匹配 tabControl 的 index 索引
+const tabControlRef = ref()
+watch(scrollTop, (newValue) => {
+  // 阻断滚动 bug
+  if (newValue === currentDistance) {
+    isClick = false
+  }
+  if (isClick) return
+
+  // 1. 获取所有区域的 offSetTop
+  const els = Object.values(sectionEls.value)
+  const values = els.map(el => el.offsetTop)
+  
+  // 2. 根据 newValue 匹配想要的索引
+  let index = values.length - 1
+  for (let i = 0; i < values.length; i++) {
+    if (values[i] > newValue + 44) {
+      index = i - 1
+      break
+    }
+  }
+  // console.log(index)
+  tabControlRef.value?.setCurrentIndex(index)
+})
 </script>
 
 <style lang="less" scoped>
