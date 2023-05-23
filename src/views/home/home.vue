@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home" ref="homeRef">
     <HomeNavBar/>
 
     <div class="banner">
@@ -19,7 +19,11 @@
   </div>
 </template>
 
+<script>
+  export default { name: "home" }
+</script>
 <script setup>
+  import { watch, ref, computed, onActivated } from 'vue';
   import useHomeStore from '@/stores/modules/home';
   
   import HomeNavBar from './components/home-nav-bar.vue';
@@ -29,7 +33,6 @@
   import SearchBar from '@/components/search-bar/search-bar.vue'
 
   import useScroll from '@/hooks/useScroll'
-  import { watch, ref, computed } from 'vue';
 
   // 发送网络请求
   const homeStore = useHomeStore()
@@ -37,9 +40,12 @@
   homeStore.fetchCategoriesData()
   homeStore.fetchHouseListData()
 
+  // 滚动 bug，监听滚动到底部
+  const homeRef = ref()
+
   // 监听 window 滚动加载更多
   // 方法二：
-  const { isReachBottom, scrollTop } = useScroll()
+  const { isReachBottom, scrollTop } = useScroll(homeRef)
   watch(isReachBottom, (newValue) => {
     if(newValue) {
       homeStore.fetchHouseListData().then(() => {
@@ -53,11 +59,22 @@
   const isShowSearchBar = computed(() => {
     return scrollTop.value >= 360
   })
+
+  // 跳转回 home 保留原来的滚动距离
+  onActivated(() => {
+    homeRef.value?.scrollTo({
+      top: scrollTop.value
+    })
+  })
+
 </script>
 
 <style lang="less" scoped>
   .home {
+    box-sizing: border-box;
     padding-bottom: 60px;
+    height: 100vh;
+    overflow-y: auto;
     .banner {
       img {
         width: 100%;
